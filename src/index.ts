@@ -2,14 +2,19 @@ import App from './app';
 import Controllers from './controllers';
 import Infrastructure from './infrastructure';
 
-const infrastructure = new Infrastructure({database: 'mongo'});
+import path from 'path';
+import dotenv from 'dotenv';
+dotenv.config({path: path.join(__dirname, '../.env')});
+const { PORT, MONGODB_URI } = process.env;
+
+const infrastructure = new Infrastructure({database: 'mongo', dbURI: <string>MONGODB_URI});
 const controllers = new Controllers(infrastructure);
  
 const app = new App(
   [
     controllers.authController,
   ],
-  3000,
+  parseInt(<string>PORT, 10) || 3000,
 );
  
 app.start();

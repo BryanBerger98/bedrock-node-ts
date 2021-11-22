@@ -5,11 +5,11 @@ export default class MongoDB {
 
     usersRepository = new UsersRepository();
 
-    constructor() {}
+    constructor(private dbURI: string) {}
 
     run(): Promise<void> {
         return new Promise((resolve, reject) => {
-            connect('mongodb://localhost:27017/bedrock-node')
+            connect(this.dbURI)
             .then(() => {
                 console.log('Mongo DB connected successfully');
             }).catch(reject);
