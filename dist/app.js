@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 class App {
     constructor(controllers, port) {
         this.app = (0, express_1.default)();
@@ -14,6 +15,7 @@ class App {
     initializeMiddlewares() {
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.urlencoded({ extended: false }));
+        this.app.use((0, cookie_parser_1.default)());
     }
     initializeControllers(controllers) {
         controllers.forEach((controller) => {

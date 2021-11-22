@@ -5,6 +5,7 @@ class User {
         this.id = user.id;
         this.email = user.email;
         this.email_verified = user.email_verified ? user.email_verified : false;
+        this.password = user.password;
         this.username = user.username ? user.username : '';
         this.photo_url = user.photo_url ? user.photo_url : '';
         this.phone_number = user.phone_number ? user.phone_number : '';

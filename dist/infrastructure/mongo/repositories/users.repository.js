@@ -16,5 +16,17 @@ class UsersRepository {
             User_model_1.default.find({}, { password: 0 }).then(resolve).catch(reject);
         });
     }
+    getUserById(userId) {
+        return new Promise((resolve, reject) => {
+            User_model_1.default.findById(userId, { password: 0 })
+                .then(user => resolve(user)).catch(reject);
+        });
+    }
+    getUserByEmail(userEmail) {
+        return new Promise((resolve, reject) => {
+            User_model_1.default.findOne({ email: userEmail })
+                .then(user => resolve(user)).catch(reject);
+        });
+    }
 }
 exports.default = UsersRepository;

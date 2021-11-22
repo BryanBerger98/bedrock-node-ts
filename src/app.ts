@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import Controller from './interfaces/controller.interface';
+import cookieParser from 'cookie-parser';
 
 export default class App {
 
@@ -17,6 +18,7 @@ export default class App {
     private initializeMiddlewares(): void {
       this.app.use(express.json());
       this.app.use(express.urlencoded({extended: false}));
+      this.app.use(cookieParser());
     }
    
     private initializeControllers(controllers: Controller[]): void {

@@ -5,6 +5,7 @@ export default class User implements UserEntity {
     public id: string;
     public email: string;
     public email_verified: boolean;
+    public password: string;
     public username: string;
     public photo_url: string;
     public phone_number: string;
@@ -16,6 +17,7 @@ export default class User implements UserEntity {
         this.id = user.id;
         this.email = user.email;
         this.email_verified = user.email_verified ? user.email_verified : false;
+        this.password = user.password;
         this.username = user.username ? user.username : '';
         this.photo_url = user.photo_url ? user.photo_url : '';
         this.phone_number = user.phone_number ? user.phone_number : '';
