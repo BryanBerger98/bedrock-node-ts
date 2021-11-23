@@ -1,15 +1,15 @@
-import express, { Request, Response } from 'express';
+import express, { Request, RequestHandler, Response } from 'express';
 import Controller from './interfaces/controller.interface';
 import cookieParser from 'cookie-parser';
+import PassportMiddleware from './middlewares/passport.middleware';
 
 export default class App {
 
     readonly app: express.Application;
     readonly port: number;
-   
-    constructor(controllers: Controller[], port: number) {
+    constructor(controllers: Controller[], port: number | undefined) {
       this.app = express();
-      this.port = port;
+      this.port = port ? port : 3000;
    
       this.initializeMiddlewares();
       this.initializeControllers(controllers);
@@ -19,6 +19,7 @@ export default class App {
       this.app.use(express.json());
       this.app.use(express.urlencoded({extended: false}));
       this.app.use(cookieParser());
+      this.app.use(new PassportMiddleware().init());
     }
    
     private initializeControllers(controllers: Controller[]): void {

@@ -6,7 +6,9 @@
         "noEmitOnError": true,
         "outDir": "dist",
         "target": "ES6",
-        "strict": true
+        "strict": true,
+        "declaration": true,
+        "typeRoots": ["./node_modules/@types", ".src/types/global.d.ts"]
     },
     "include": [
         "src/**/*"
