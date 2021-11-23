@@ -18,6 +18,7 @@ export default class AuthController implements Controller {
         this.router.post('/login', this.loginUser.bind(this));
         this.router.get('/current', passport.authenticate('jwt', {session: false}), this.getCurrentUser.bind(this));
         this.router.get('/', this.getAllUsers.bind(this));
+        this.router.delete('/account', passport.authenticate('jwt', {session: false}), this.deleteAccount.bind(this));
     }
 
     registerUser(req: Request, res: Response): void {
@@ -45,6 +46,12 @@ export default class AuthController implements Controller {
 
     getCurrentUser(req: Request, res: Response): void {
         this.authInteractors.getCurrentUser.execute(req.user as UserEntity)
+        .then((response: UserEntity) => res.status(200).json(response))
+        .catch((error: Error) => res.status(500).json(error.message));
+    }
+
+    deleteAccount(req: Request, res: Response): void {
+        this.authInteractors.deleteAccount.execute(req.user as UserEntity)
         .then((response: UserEntity) => res.status(200).json(response))
         .catch((error: Error) => res.status(500).json(error.message));
     }

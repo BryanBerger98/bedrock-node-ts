@@ -32,4 +32,11 @@ export default class UsersRepository implements UsersRepositoryInterface {
         });
     }
 
+    deleteUser(userId: string): Promise<UserEntity> {
+        return new Promise((resolve, reject) => {
+            UserModel.findByIdAndDelete(userId)
+            .then(user => resolve(user as UserEntity)).catch(reject);
+        });
+    }
+
 }
