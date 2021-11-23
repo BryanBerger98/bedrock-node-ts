@@ -1,5 +1,3 @@
-import UserEntity from "../domain/authentication/interfaces/user-entity.interface";
-
 declare namespace NodeJS {
     export interface ProcessEnv {
         PORT: string;

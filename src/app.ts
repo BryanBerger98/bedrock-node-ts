@@ -1,7 +1,8 @@
-import express, { Request, RequestHandler, Response } from 'express';
+import express from 'express';
 import Controller from './interfaces/controller.interface';
 import cookieParser from 'cookie-parser';
 import PassportMiddleware from './middlewares/passport.middleware';
+import CorsMiddleware from './middlewares/cors.middleware';
 
 export default class App {
 
@@ -20,6 +21,7 @@ export default class App {
       this.app.use(express.urlencoded({extended: false}));
       this.app.use(cookieParser());
       this.app.use(new PassportMiddleware().init());
+      this.app.use(new CorsMiddleware().init());
     }
    
     private initializeControllers(controllers: Controller[]): void {
