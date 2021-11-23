@@ -7,4 +7,5 @@ export default interface UsersRepository {
     getUserById(userId: string): Promise<UserEntity>;
     getUserByEmail(userEmail: string): Promise<UserEntity>;
     deleteUser(userId: string): Promise<UserEntity>;
+    updateUser(user: UserEntity): Promise<UserEntity>;
 }

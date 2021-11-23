@@ -6,6 +6,7 @@ import GetAllUsersInteractor from "./get-all-users.interactor";
 import GetCurrentUserInteractor from "./get-current-user.interactor";
 import LoginUserInteractor from "./login-user.interactor";
 import RegisterUserInteractor from "./register-user.interactor";
+import UpdateAccountInteractor from "./update-account.interactor";
 
 export default class AuthInteractors {
 
@@ -14,6 +15,7 @@ export default class AuthInteractors {
     getAllUsers = new GetAllUsersInteractor(this.usersRepository);
     getCurrentUser = new GetCurrentUserInteractor(this.usersRepository);
     deleteAccount = new DeleteAccountInteractor(this.usersRepository);
+    updateAccount = new UpdateAccountInteractor(this.usersRepository);
 
     constructor(
         private usersRepository: UsersRepository,

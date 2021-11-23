@@ -3,6 +3,7 @@ import AuthInteractors from '../domain/authentication/interactors';
 import UserEntity from '../domain/authentication/interfaces/user-entity.interface';
 import Controller from '../interfaces/controller.interface';
 import passport from 'passport';
+import UserCredentials from '../domain/authentication/interfaces/user-credentials.interface';
 
 export default class AuthController implements Controller {
 
@@ -19,16 +20,17 @@ export default class AuthController implements Controller {
         this.router.get('/current', passport.authenticate('jwt', {session: false}), this.getCurrentUser.bind(this));
         this.router.get('/', this.getAllUsers.bind(this));
         this.router.delete('/account', passport.authenticate('jwt', {session: false}), this.deleteAccount.bind(this));
+        this.router.put('/account', passport.authenticate('jwt', {session: false}), this.updateAccount.bind(this));
     }
 
     registerUser(req: Request, res: Response): void {
-        this.authInteractors.registerUser.execute(req.body)
+        this.authInteractors.registerUser.execute(req.body as UserCredentials)
         .then((response: UserEntity) => res.status(201).json(response))
         .catch((error: Error) => res.status(500).json(error.message));
     }
 
     loginUser(req: Request, res: Response): void {
-        this.authInteractors.loginUser.execute(req.body)
+        this.authInteractors.loginUser.execute(req.body as UserCredentials)
         .then((response: {user: UserEntity, token: string}) => {
             res.cookie('access_token', response.token, {
                 httpOnly: true,
@@ -52,6 +54,12 @@ export default class AuthController implements Controller {
 
     deleteAccount(req: Request, res: Response): void {
         this.authInteractors.deleteAccount.execute(req.user as UserEntity)
+        .then((response: UserEntity) => res.status(200).json(response))
+        .catch((error: Error) => res.status(500).json(error.message));
+    }
+
+    updateAccount(req: Request, res: Response): void {
+        this.authInteractors.updateAccount.execute(req.body as UserEntity)
         .then((response: UserEntity) => res.status(200).json(response))
         .catch((error: Error) => res.status(500).json(error.message));
     }

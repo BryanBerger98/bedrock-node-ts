@@ -39,4 +39,11 @@ export default class UsersRepository implements UsersRepositoryInterface {
         });
     }
 
+    updateUser(userToUpdate: UserEntity): Promise<UserEntity> {
+        return new Promise((resolve, reject) => {
+            UserModel.findByIdAndUpdate(userToUpdate.id, {$set: {...userToUpdate}}, {new: true})
+            .then(user => resolve(user as UserEntity)).catch(reject);
+        });
+    }
+
 }
