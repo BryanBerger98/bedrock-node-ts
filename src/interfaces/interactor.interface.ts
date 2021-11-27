@@ -1,3 +1,3 @@
 export default interface Interactor {
-    execute(args: unknown): Promise<unknown>;
+    execute(...args: unknown[]): Promise<unknown>;
 }

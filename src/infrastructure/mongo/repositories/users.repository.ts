@@ -46,4 +46,11 @@ export default class UsersRepository implements UsersRepositoryInterface {
         });
     }
 
+    getUserByIdWithPassword(userId: string): Promise<UserEntity> {
+        return new Promise((resolve, reject) => {
+            UserModel.findById(userId)
+            .then(user => resolve(user as UserEntity)).catch(reject);
+        })
+    }
+
 }

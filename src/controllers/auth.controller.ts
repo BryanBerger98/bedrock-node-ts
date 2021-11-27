@@ -21,6 +21,7 @@ export default class AuthController implements Controller {
         this.router.get('/', this.getAllUsers.bind(this));
         this.router.delete('/account', passport.authenticate('jwt', {session: false}), this.deleteAccount.bind(this));
         this.router.put('/account', passport.authenticate('jwt', {session: false}), this.updateAccount.bind(this));
+        this.router.put('/change-password', passport.authenticate('jwt', {session: false}), this.changeUserPassword.bind(this));
     }
 
     registerUser(req: Request, res: Response): void {
@@ -60,6 +61,12 @@ export default class AuthController implements Controller {
 
     updateAccount(req: Request, res: Response): void {
         this.authInteractors.updateAccount.execute(req.body as UserEntity)
+        .then((response: UserEntity) => res.status(200).json(response))
+        .catch((error: Error) => res.status(500).json(error.message));
+    }
+
+    changeUserPassword(req: Request, res: Response): void {
+        this.authInteractors.changeUserPassword.execute(req.user as UserEntity, req.body)
         .then((response: UserEntity) => res.status(200).json(response))
         .catch((error: Error) => res.status(500).json(error.message));
     }
