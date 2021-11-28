@@ -60,7 +60,7 @@ export default class AuthController implements Controller {
     }
 
     updateAccount(req: Request, res: Response): void {
-        this.authInteractors.updateAccount.execute(req.body as UserEntity)
+        this.authInteractors.updateAccount.execute(req.user as UserEntity, req.body as UserEntity)
         .then((response: UserEntity) => res.status(200).json(response))
         .catch((error: Error) => res.status(500).json(error.message));
     }

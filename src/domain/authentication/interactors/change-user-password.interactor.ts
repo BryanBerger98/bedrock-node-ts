@@ -14,6 +14,9 @@ export default class ChangeUserPasswordIneractor implements Interactor {
         return new Promise((resolve, reject) => {
             this.usersRepository.getUserByIdWithPassword(currentUser.id)
             .then(user => {
+                if (!user) {
+                    reject(new Error('This user does not exist'));
+                }
                 this.passwordsService.comparePassword(user.password, oldPassword)
                 .then(result => {
                     if (!result) {
@@ -21,7 +24,7 @@ export default class ChangeUserPasswordIneractor implements Interactor {
                     }
                     this.passwordsService.hashPassword(newPassword)
                     .then(newHashedPassword => {
-                        this.usersRepository.updateUser({...user, password: newHashedPassword}).then(resolve).catch(reject);
+                        this.usersRepository.updateUser({email: user.email, id: user.id, password: newHashedPassword}).then(resolve).catch(reject);
                     }).catch(reject);
                 }).catch(reject);
             }).catch(reject);
