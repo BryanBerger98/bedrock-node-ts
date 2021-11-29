@@ -15,4 +15,13 @@ export default class TokensService implements TokensServiceInterface {
         return token;
     }
 
+    verifyToken(token: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            jwt.verify(token, <string>config.JWT_SECRET, (err, payload) => {
+                if (err) return reject(err);
+                resolve(payload);
+            });
+        });
+    }
+
 }

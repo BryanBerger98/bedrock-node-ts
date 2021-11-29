@@ -24,7 +24,8 @@ export default class ChangeUserPasswordIneractor implements Interactor {
                     }
                     this.passwordsService.hashPassword(newPassword)
                     .then(newHashedPassword => {
-                        this.usersRepository.updateUser({email: user.email, id: user.id, password: newHashedPassword}).then(resolve).catch(reject);
+                        user.password = newHashedPassword;
+                        this.usersRepository.updateUser(user).then(resolve).catch(reject);
                     }).catch(reject);
                 }).catch(reject);
             }).catch(reject);
