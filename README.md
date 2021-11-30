@@ -1,4 +1,4 @@
-# Bedrock Node
+# Bedrock Node TS
 
 Bedrock Node TS is a NodeJS application using TypeScript allowing to start a new Node project from a healthy and operational base.
 It is already compatible with MongoDB and will be with Postgres.
