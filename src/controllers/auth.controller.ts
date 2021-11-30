@@ -5,6 +5,7 @@ import Controller from '../interfaces/controller.interface';
 import passport from 'passport';
 import UserCredentials from '../domain/authentication/interfaces/user-credentials.interface';
 import UpdateUserDto from '../domain/authentication/dto/update-user.dto';
+import UpdatePasswordDto from '../domain/authentication/dto/update-user-password.dto';
 
 export default class AuthController implements Controller {
 
@@ -69,7 +70,8 @@ export default class AuthController implements Controller {
     }
 
     changeUserPassword(req: Request, res: Response): void {
-        this.authInteractors.changeUserPassword.execute(req.user as UserEntity, req.body)
+        const currentUser = req.user as UserEntity;
+        this.authInteractors.changeUserPassword.execute({userId: currentUser.id, ...req.body} as UpdatePasswordDto)
         .then((response: UserEntity) => res.status(200).json(response))
         .catch((error: Error) => res.status(500).json(error.message));
     }

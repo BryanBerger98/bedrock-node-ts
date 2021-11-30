@@ -47,6 +47,13 @@ export default class UsersRepository implements UsersRepositoryInterface {
         });
     }
 
+    updateUserPassword(userId: string, newPassword: string): Promise<UserEntity> {
+        return new Promise((resolve, reject) => {
+            UserModel.findByIdAndUpdate(userId, {$set: {password: newPassword}}, {new: true})
+            .then(user => resolve(user as UserEntity)).catch(reject);
+        });
+    }
+
     getUserByIdWithPassword(userId: string): Promise<UserEntity> {
         return new Promise((resolve, reject) => {
             UserModel.findById(userId)

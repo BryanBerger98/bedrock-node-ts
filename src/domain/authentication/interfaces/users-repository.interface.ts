@@ -10,4 +10,5 @@ export default interface UsersRepository {
     getUserByEmail(userEmail: string): Promise<UserEntity>;
     deleteUser(userId: string): Promise<UserEntity>;
     updateUser(user: UpdateUserDto): Promise<UserEntity>;
+    updateUserPassword(userId: string, newPassword: string): Promise<UserEntity>
 }
