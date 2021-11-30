@@ -1,3 +1,4 @@
+import UpdateUserDto from "../../../domain/authentication/dto/update-user.dto";
 import UserCredentials from "../../../domain/authentication/interfaces/user-credentials.interface";
 import UserEntity from "../../../domain/authentication/interfaces/user-entity.interface";
 import UsersRepositoryInterface from "../../../domain/authentication/interfaces/users-repository.interface";
@@ -39,9 +40,16 @@ export default class UsersRepository implements UsersRepositoryInterface {
         });
     }
 
-    updateUser(userToUpdate: UserEntity): Promise<UserEntity> {
+    updateUser(userToUpdate: UpdateUserDto): Promise<UserEntity> {
         return new Promise((resolve, reject) => {
             UserModel.findByIdAndUpdate(userToUpdate.id, {$set: {...userToUpdate}}, {new: true})
+            .then(user => resolve(user as UserEntity)).catch(reject);
+        });
+    }
+
+    updateUserPassword(userId: string, newPassword: string): Promise<UserEntity> {
+        return new Promise((resolve, reject) => {
+            UserModel.findByIdAndUpdate(userId, {$set: {password: newPassword}}, {new: true})
             .then(user => resolve(user as UserEntity)).catch(reject);
         });
     }

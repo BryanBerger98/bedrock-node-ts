@@ -1,9 +1,11 @@
 import { connect } from "mongoose";
+import TokensRepository from "./repositories/tokens.repository";
 import UsersRepository from "./repositories/users.repository";
 
 export default class MongoDB {
 
     usersRepository = new UsersRepository();
+    tokensRepository = new TokensRepository();
 
     constructor(private dbURI: string) {}
 

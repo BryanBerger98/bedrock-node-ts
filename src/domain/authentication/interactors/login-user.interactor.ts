@@ -15,6 +15,15 @@ export default class LoginUserInteractor implements Interactor {
 
     execute(userCredentials: UserCredentials): Promise<{user: UserEntity, token: string}> {
         return new Promise((resolve, reject) => {
+            if (!userCredentials) {
+                reject(new Error('Credentials are missing'));
+            }
+            if (userCredentials && !userCredentials.email || userCredentials && userCredentials.email === '') {
+                reject(new Error('An email address must be provided'));
+            }
+            if (userCredentials && !userCredentials.password || userCredentials && userCredentials.password === '') {
+                reject(new Error('A password must be provided'));
+            }
             this.usersRepository.getUserByEmail(userCredentials.email)
             .then((user: UserEntity) => {
                 this.passwordsService.comparePassword(user.password, userCredentials.password)

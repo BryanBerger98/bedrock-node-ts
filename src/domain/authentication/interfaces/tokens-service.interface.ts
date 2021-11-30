@@ -4,4 +4,5 @@ export type TokenAction = 'authentication' | 'reset_password' | 'account_verific
 
 export default interface TokensService {
     createToken(user: UserEntity, expirationDate: Date | number, action: TokenAction): string;
+    verifyToken(token: string): Promise<any>;
 }
