@@ -13,6 +13,15 @@ export default class RegisterUserInteractor implements Interactor {
 
     execute(userCredentials: UserCredentials): Promise<UserEntity> {
         return new Promise((resolve, reject) => {
+            if (!userCredentials) {
+                reject(new Error('Credentials are missing'));
+            }
+            if (userCredentials && !userCredentials.password
+                || userCredentials && userCredentials.password === ''
+                || userCredentials && !userCredentials.email
+                || userCredentials && userCredentials.email === '') {
+                reject(new Error('At least an email and a password must be provided'));
+            }
             this.passwordsService.hashPassword(userCredentials.password)
             .then(hashedPassword => {
                 userCredentials.password = hashedPassword; 

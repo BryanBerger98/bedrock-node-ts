@@ -13,6 +13,12 @@ export default class ChangeUserPasswordIneractor implements Interactor {
 
     execute(updatePasswordParams: UpdatePasswordDto): Promise<UserEntity> {
         return new Promise((resolve, reject) => {
+            if (updatePasswordParams && !updatePasswordParams.oldPassword || updatePasswordParams && updatePasswordParams.oldPassword === '') {
+                reject(new Error('Old password must be provided'));
+            }
+            if (updatePasswordParams && !updatePasswordParams.newPassword || updatePasswordParams && updatePasswordParams.newPassword === '') {
+                reject(new Error('New password must be provided'));
+            }
             this.usersRepository.getUserByIdWithPassword(updatePasswordParams.userId)
             .then(user => {
                 if (!user) {
