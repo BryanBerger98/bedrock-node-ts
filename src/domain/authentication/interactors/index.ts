@@ -1,4 +1,6 @@
+import EmailsService from "../interfaces/emails-service.interface";
 import PasswordsService from "../interfaces/passwords-service.interface";
+import TokensRepository from "../interfaces/tokens-repository.interface";
 import TokensService from "../interfaces/tokens-service.interface";
 import UsersRepository from "../interfaces/users-repository.interface";
 import ChangeUserPasswordIneractor from "./change-user-password.interactor";
@@ -7,7 +9,9 @@ import GetAllUsersInteractor from "./get-all-users.interactor";
 import GetCurrentUserInteractor from "./get-current-user.interactor";
 import LoginUserInteractor from "./login-user.interactor";
 import RegisterUserInteractor from "./register-user.interactor";
+import SendAccountVerificationEmailInteractor from "./send-account-verification-email.interactor";
 import UpdateAccountInteractor from "./update-account.interactor";
+import VerifyAccountWithTokenInteractor from "./verify-account-with-token.interactor";
 
 export default class AuthInteractors {
 
@@ -18,11 +22,15 @@ export default class AuthInteractors {
     deleteAccount = new DeleteAccountInteractor(this.usersRepository);
     updateAccount = new UpdateAccountInteractor(this.usersRepository);
     changeUserPassword = new ChangeUserPasswordIneractor(this.usersRepository, this.passwordsService);
+    sendAccountVerificationEmail = new SendAccountVerificationEmailInteractor(this.tokensRepository, this.tokensService, this.emailsService);
+    verifyAccountWithToken = new VerifyAccountWithTokenInteractor(this.usersRepository, this.tokensRepository, this.tokensService);
 
     constructor(
         private usersRepository: UsersRepository,
         private passwordsService: PasswordsService,
-        private tokensService: TokensService
+        private tokensService: TokensService,
+        private tokensRepository: TokensRepository,
+        private emailsService: EmailsService
     ) {}
 
 }

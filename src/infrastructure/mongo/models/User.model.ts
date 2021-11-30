@@ -11,7 +11,7 @@ const schema = new Schema<UserEntity>({
         index: true
     },
     email_verified: {
-        type: String,
+        type: Boolean,
         default: false
     },
     password: {
