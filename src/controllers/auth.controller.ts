@@ -6,6 +6,7 @@ import passport from 'passport';
 import UserCredentials from '../domain/authentication/interfaces/user-credentials.interface';
 import UpdateUserDto from '../domain/authentication/dto/update-user.dto';
 import UpdatePasswordDto from '../domain/authentication/dto/update-user-password.dto';
+import ResetUserPasswordDto from '../domain/authentication/dto/reset-user-password.dto';
 
 export default class AuthController implements Controller {
 
@@ -26,6 +27,8 @@ export default class AuthController implements Controller {
         this.router.put('/change-password', passport.authenticate('jwt', {session: false}), this.changeUserPassword.bind(this));
         this.router.get('/verify-account', passport.authenticate('jwt', {session: false}), this.sendAccountVerificationEmail.bind(this));
         this.router.post('/verify-account', passport.authenticate('jwt', {session: false}), this.verifyAccountWithToken.bind(this));
+        this.router.post('/reset-password', passport.authenticate('jwt', {session: false}), this.sendResetPasswordEmail.bind(this));
+        this.router.put('/reset-password', passport.authenticate('jwt', {session: false}), this.resetPasswordWithToken.bind(this));
     }
 
     registerUser(req: Request, res: Response): void {
@@ -83,9 +86,21 @@ export default class AuthController implements Controller {
     }
 
     verifyAccountWithToken(req: Request, res: Response): void {
-        this.authInteractors.verifyAccountWithToken.execute(req.body.token as string)
+        this.authInteractors.verifyAccountWithToken.execute(req.body)
         .then((response: any) => res.status(200).json(response))
         .catch((error: Error) => res.status(500).json(error.message));
+    }
+
+    sendResetPasswordEmail(req: Request, res: Response): void {
+        this.authInteractors.sendResetPasswordEmail.execute(req.body)
+        .then((response: any) => res.status(200).json(response))
+        .catch((error: Error) => res.status(500).json(error.message)); 
+    }
+
+    resetPasswordWithToken(req: Request, res: Response): void {
+        this.authInteractors.resetPasswordWithToken.execute(req.body as ResetUserPasswordDto)
+        .then((response: any) => res.status(200).json(response))
+        .catch((error: Error) => res.status(500).json(error.message)); 
     }
 
 }

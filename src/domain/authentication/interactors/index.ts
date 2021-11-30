@@ -9,7 +9,9 @@ import GetAllUsersInteractor from "./get-all-users.interactor";
 import GetCurrentUserInteractor from "./get-current-user.interactor";
 import LoginUserInteractor from "./login-user.interactor";
 import RegisterUserInteractor from "./register-user.interactor";
+import ResetPasswordWithTokenInteractor from "./reset-password-with-token";
 import SendAccountVerificationEmailInteractor from "./send-account-verification-email.interactor";
+import SendResetPasswordEmail from "./send-reset-password-email.interactor";
 import UpdateAccountInteractor from "./update-account.interactor";
 import VerifyAccountWithTokenInteractor from "./verify-account-with-token.interactor";
 
@@ -24,6 +26,8 @@ export default class AuthInteractors {
     changeUserPassword = new ChangeUserPasswordIneractor(this.usersRepository, this.passwordsService);
     sendAccountVerificationEmail = new SendAccountVerificationEmailInteractor(this.tokensRepository, this.tokensService, this.emailsService);
     verifyAccountWithToken = new VerifyAccountWithTokenInteractor(this.usersRepository, this.tokensRepository, this.tokensService);
+    sendResetPasswordEmail = new SendResetPasswordEmail(this.tokensRepository, this.tokensService, this.emailsService, this.usersRepository);
+    resetPasswordWithToken = new ResetPasswordWithTokenInteractor(this.usersRepository, this.tokensRepository, this.tokensService, this.passwordsService);
 
     constructor(
         private usersRepository: UsersRepository,

@@ -10,8 +10,11 @@ export default class VerifyAccountWithTokenInteractor {
         private tokensRepository: TokensRepository,
         private tokensService: TokensService) { }
 
-    async execute(token: string): Promise<any> {
+    async execute({token}: {token: string}): Promise<any> {
         try {
+            if (!token || token && token === '') {
+                throw new Error('Invalid token');
+            }
             const tokenEntity: TokenEntity = await this.tokensRepository.getToken(token);
             if (!tokenEntity) throw new Error('Invalid token');
             const jwtPayload = await this.tokensService.verifyToken(tokenEntity.token);
